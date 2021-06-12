@@ -8,6 +8,14 @@ app.secret_key = 'hi'
 
 db = SQLAlchemy(app)
 
+class People(db.Model):
+    pname = db.Column(db.String(80), unique=True, nullable=False)
+    color = db.Column(db.String(120), nullable=False)
+
+    def __init__(self, pname, color):
+        self.pname = pname
+        self.color = color
+
 @app.route('/')
 def home():
     return '<a href="/addperson"><button> Click here </button></a>'
