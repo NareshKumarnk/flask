@@ -9,10 +9,12 @@ app.secret_key = 'hi'
 db = SQLAlchemy(app)
 
 class People(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
     pname = db.Column(db.String(80), unique=True, nullable=False)
     color = db.Column(db.String(120), nullable=False)
 
-    def __init__(self, pname, color):
+    def __init__(self, id, pname, color):
+        self.id = id
         self.pname = pname
         self.color = color
 
@@ -28,9 +30,10 @@ def addperson():
 
 @app.route("/personadd", methods=['POST'])
 def personadd():
+    id = request.form["id"]
     pname = request.form["pname"]
     color = request.form["color"]
-    entry = People(pname, color)
+    entry = People(id, pname, color)
     db.session.add(entry)
     db.session.commit()
 
